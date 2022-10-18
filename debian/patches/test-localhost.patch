@@ -1,0 +1,86 @@
+Description: Test HTTP service on localhost
+ Debian build process cannot access internet.
+ So test HTTP service on localhost instead.
+ .
+ Disable testing squid for now (FIXME).
+ We need a way to run squid during build process.
+ Currently squid exit with core dump.
+Author: Praveen Arimbrathodiyil <praveen@debian.org>
+Last-Update: 2014-02-10
+
+--- a/spec/socksify_spec.rb
++++ b/spec/socksify_spec.rb
+@@ -9,8 +9,8 @@
+       include EM::Socksify
+ 
+       def connection_completed
+-        socksify('google.com', 80) do |ip|
+-          send_data "GET / HTTP/1.1\r\nConnection:close\r\nHost: google.com\r\n\r\n"
++        socksify('localhost', 8082) do |ip|
++          send_data "GET / HTTP/1.1\r\nConnection:close\r\nHost: localhost\r\n\r\n"
+         end
+       end
+ 
+@@ -32,34 +32,34 @@
+   end
+ 
+   # requires squid running on localhost with default config
+-  it "should negotiate a connect connection" do
++#  it "should negotiate a connect connection" do
++#
++#    class Handler < EM::Connection
++#      include EM::Connectify
++
++#      def connection_completed
++#        connectify('localhost', 8443) do
++#          start_tls
++#          send_data "GET / HTTP/1.1\r\nConnection:close\r\nHost: localhost\r\n\r\n"
++#        end
++#      end
++
++#      def receive_data(data)
++#        @received ||= ''
++#        @received << data
++#      end
++
++#      def unbind
++#        @received.size.should > 0
++#        @received[0,4].should == 'HTTP'
++#        EM.stop
++#      end
++#    end
++
++#    EM::run do
++#      EventMachine.connect '127.0.0.1', 3128, Handler
++#    end
+ 
+-    class Handler < EM::Connection
+-      include EM::Connectify
+-
+-      def connection_completed
+-        connectify('www.google.com', 443) do
+-          start_tls
+-          send_data "GET / HTTP/1.1\r\nConnection:close\r\nHost: www.google.com\r\n\r\n"
+-        end
+-      end
+-
+-      def receive_data(data)
+-        @received ||= ''
+-        @received << data
+-      end
+-
+-      def unbind
+-        @received.size.should > 0
+-        @received[0,4].should == 'HTTP'
+-        EM.stop
+-      end
+-    end
+-
+-    EM::run do
+-      EventMachine.connect '127.0.0.1', 8081, Handler
+-    end
+-
+-  end
++#  end
+ 
+ end

@@ -1,0 +1,33 @@
+Source: ruby-em-socksify
+Section: ruby
+Priority: optional
+Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Uploaders: Praveen Arimbrathodiyil <praveen@debian.org>
+Build-Depends: debhelper-compat (= 12),
+               gem2deb,
+               hpsockd,
+               procps,
+               psmisc,
+               rake,
+               ruby-eventmachine (>=1.0.3-4~),
+               ruby-rspec
+Standards-Version: 4.5.0
+Vcs-Git: https://salsa.debian.org/ruby-team/ruby-em-socksify.git
+Vcs-Browser: https://salsa.debian.org/ruby-team/ruby-em-socksify
+Homepage: https://github.com/igrigorik/em-socksify
+Testsuite: autopkgtest-pkg-ruby
+XS-Ruby-Versions: all
+Rules-Requires-Root: no
+
+Package: ruby-em-socksify
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends: ruby-eventmachine (>= 1.0.3-4~),
+         ${misc:Depends},
+         ${ruby:Depends},
+         ${shlibs:Depends}
+Description: EventMachine SOCKSify shim: adds SOCKS support to any protocol
+ Dealing with SOCKS proxies is pain. EM-Socksify provides a simple shim to
+ setup & negotiate a SOCKS5 connection for any EventMachine protocol. To add
+ SOCKS support, all you have to do is include the module and provide your
+ destination address.

@@ -1,0 +1,40 @@
+#!/bin/sh
+# start hpsockd and webrick, inspired from ruby-mysql2
+# It is in turn inspired by
+# debian/test_mysql.sh from libdbi-drivers source package.
+# It needs a socks proxy and an HTTP service to test.
+
+set -ex
+
+CONFIG_FILE=debian/tests/hpsockd.conf
+RUBY_VERSIONS=$(dh_ruby --print-supported)
+
+for r in ${RUBY_VERSIONS}
+do
+
+  TMP_DIR=debian/tmp
+  mkdir -p ${TMP_DIR}
+
+  # Start webrick on 8082
+  ${r} -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8082, :DocumentRoot => Dir.pwd); trap('INT') { s.shutdown }; s.start" >${TMP_DIR}/webrick.out 2>&1&
+  echo "Sleeping 5 seconds for WEBrick to start..."
+  sleep 5
+
+  # Start a hpsockd socks server
+  fakeroot /usr/sbin/hpsockd -c ${CONFIG_FILE} 2>&1
+
+  mv lib .gem2deb.lib
+  RUBYLIB=. ${r} --verbose -S rake -f ./debian/tests/ruby-tests.rake
+  mv .gem2deb.lib lib
+
+  # Stop webrick and hpsockd
+  killall -9 hpsockd
+  webrick_pid=`cat ${TMP_DIR}/webrick.out |grep pid| awk '{print $5}'|cut -d= -f2`
+  kill -9 ${webrick_pid}
+
+  # Cleanup
+  rm -rf ${TMP_DIR}
+
+done
+
+set +ex

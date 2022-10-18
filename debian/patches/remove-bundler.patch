@@ -1,0 +1,17 @@
+Description: Remove bundler and rubygems
+ We will use apt to install dependencies.
+ Dependencies will be added to debian/control.
+Author: Praveen Arimbrathodiyil <praveen@debian.org>
+Last-Update: 2013-06-04
+
+--- a/spec/helper.rb
++++ b/spec/helper.rb
+@@ -1,4 +1,4 @@
+-require 'rubygems'
+-require 'bundler/setup'
++#require 'rubygems'
++#require 'bundler/setup'
+ 
+-require 'em-socksify'
+\ No newline at end of file
++require 'em-socksify'

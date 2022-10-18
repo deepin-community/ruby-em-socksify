@@ -1,0 +1,72 @@
+ruby-em-socksify (0.3.1-2) unstable; urgency=medium
+
+  * Team upload.
+  * d/clean: Remove hpsockd-negot_file, debian/tmp/ and Gemfile.lock.
+  * d/compat: Remove obsolete file.
+  * d/control: Add Rules-Requires-Root field.
+    (Build-Depends): Add Rules-Requires-Root field. Move test depends into
+    d/tests/control.
+    (Standards-Version): Bump to 4.5.0.
+    (Vcs-Git, Vcs-Browser): Use the salsa URLs.
+    (Homepage): Use secure URI.
+    (Depends): Remove interpreters and use ${ruby:Depends}.
+  * d/copyright: Add Upstream-Contact field.
+    (Format): Fix insecure-copyright-format-uri.
+    (Source): Use secure URI.
+  * d/hpsockd.conf: Moved to d/tests/hpsockd.conf.
+  * d/ruby-tests.rake: Moved to d/tests/ruby-tests.rake.
+  * d/rules: Remove obsolete override_dh_auto_install target.
+  * d/start_webrick_hpsockd_and_auto_install.sh: Moved and renamed to
+    d/tests/ruby-tests.
+  * d/watch: Use gemwatch.d.n service.
+  * d/tests/control: Add autopkgtest control file and run ruby-tests.rake from
+    there via ruby-tests script. Add test dependencies here. Add fakeroot to
+    dependencies to make hpsockd work.
+  * d/tests/ruby-tests: Run the script with all ruby versions we support and
+    move lib/ out of the way as gem2deb-test-runner would do. Also run hpsockd
+    via fakeroot. Otherwise it will fail in autopkgtest (I don't know why
+    needs-root in Restrictions is not enough).
+  * d/upstream/metadata: Add upstream metadata.
+
+ -- Daniel Leidert <dleidert@debian.org>  Mon, 13 Apr 2020 17:41:28 +0200
+
+ruby-em-socksify (0.3.1-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Cédric Boutillier ]
+  * Bump debhelper compatibility level to 9
+  * Remove version in the gem2deb build-dependency
+  * Use https:// in Vcs-* fields
+  * Run wrap-and-sort on packaging files
+
+  [ Sebastien Badia ]
+  * New upstream version 0.3.1
+  * Update packaging with a new `dh-make-ruby -w` run
+  * Bump Standards-Version to 3.9.8 (no changes needed)
+  * Bump to debhelper 10 and watch 4
+  * Rebuild with a newer gem2deb adds Rubygems integration
+    (Closes: #830088, #830099)
+
+ -- Sebastien Badia <sbadia@debian.org>  Mon, 19 Dec 2016 15:12:28 +0100
+
+ruby-em-socksify (0.3.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Refresh test-localhost.patch
+    - Disable tests needing squid
+
+ -- Praveen Arimbrathodiyil <praveen@debian.org>  Mon, 10 Feb 2014 20:29:44 +0530
+
+ruby-em-socksify (0.2.1-2) unstable; urgency=low
+
+  * Depend on ruby-eventmachine built with ruby 2.0 (Closes: #725561)
+  * Bump standards version to 3.9.5 (no changes required)
+
+ -- Praveen Arimbrathodiyil <praveen@debian.org>  Fri, 07 Feb 2014 23:40:47 +0530
+
+ruby-em-socksify (0.2.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #710043)
+
+ -- Praveen Arimbrathodiyil <praveen@debian.org>  Tue, 04 Jun 2013 13:05:40 +0530

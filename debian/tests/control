@@ -1,0 +1,3 @@
+Tests: ruby-tests
+Depends: @, @builddeps@, fakeroot, hpsockd, procps, psmisc
+Restrictions: allow-stderr, needs-root, isolation-container
